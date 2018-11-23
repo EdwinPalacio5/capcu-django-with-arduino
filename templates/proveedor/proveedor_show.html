@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<br><br>
+<div class="col-md-12" data-url="{% url 'proveedor:ajax' %}" id="proveedor_id">
+
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var url = $("#proveedor_id").attr("data-url");
+    function readProveedor() {
+        $.ajax({
+        	url: url,
+        	success: function(data){
+        		$("#proveedor_id").html(data)
+        	}
+        });
+    }
+    setInterval(readProveedor, 2000);
+});
+</script>
+
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

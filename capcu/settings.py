@@ -26,7 +26,7 @@ SECRET_KEY = '9!h+2os9li8b^_d24rf(%k!&h&=b!_*u9%4-3dr&e&-ff5h4z_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.4']
 
 
 # Application definition
@@ -115,6 +115,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
 LOGIN_REDIRECT_URL = reverse_lazy('base')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 

@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br>
+	{% if proveedores %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Codigo</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Categorias</th>
+      <th scope="col">Puestos</th>
+      <th scope="col">Hora de ingreso</th>
+    </tr>
+  </thead>
+  <tbody>
+		{% for proveedor in proveedores %}	
+    <tr class="table-warning">
+      <th scope="row">{{proveedor.proveedor.codigo_proveedor}}</th>
+      <td>{{proveedor.proveedor.nombre_proveedor}}</td>
+      <td>
+      	{% for categoria in proveedor.proveedor.categoria_proveedor.all %}
+      	{{categoria.nombre_categoria}}<br>
+      	{% endfor %}
+      </td>
+      <td>
+      	{% for puesto in proveedor.proveedor.puesto_proveedor.all %}
+      	{{ puesto.nombre_puesto }}<br>
+      	{% endfor %}
+      </td>
+      <td>{{proveedor.hora_entrada}}</td>
+    </tr>
+  
+		{% endfor %}
+	</tbody> 
+</table>
+	{% else %}
+		<h1 class="text-center">No hay proveedores dentro del campus</h1>
+	{% endif %}
+{% endblock %}

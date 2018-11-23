@@ -20,11 +20,12 @@ from django.contrib.auth.views import login, logout_then_login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('proveedor/',include('apps.proveedor.urls')),
+    path('proveedor/',include('apps.proveedor.urls', namespace="proveedor")),
     path('base/', views.base, name="base"),
     path('componentes/', views.componentes, name="componentes"),
     path('accounts/login/', login, {'template_name':'login/login.html'}, name='login'),
     path('logout/', logout_then_login, name='logout'),
+    path('prueba/', views.prueba, name='prueba'),
     #path('login/', views.login, name="login"),
 
 ]

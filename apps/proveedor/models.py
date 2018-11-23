@@ -21,14 +21,18 @@ class Proveedor(models.Model):
 	nombre_proveedor = models.CharField(max_length=50)
 	categoria_proveedor = models.ManyToManyField(Categoria)
 	puesto_proveedor = models.ManyToManyField(Puesto)
+	estado_control = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.nombre_proveedor
 
 class Control(models.Model):
-	hora_entrada = models.DateTimeField()
-	hora_salida = models.DateTimeField()
-	proveedor = models.ForeignKey (Proveedor, null = True , blank = True , on_delete = models. CASCADE )
-	estado_control = models.BooleanField(default=False)
+	fecha_entrada = models.DateField(blank=True, null=True)
+	fecha_salida = models.DateField(blank=True, null=True)
+	hora_entrada = models.TimeField(blank=True, null=True)
+	hora_salida = models.TimeField(blank=True, null=True)
+	control = models.BooleanField(default=True)
+	proveedor = models.ForeignKey (Proveedor, null = True , blank = True , on_delete = models.CASCADE)
+	
 
 
