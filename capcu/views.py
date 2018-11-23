@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import time
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import serial
 
 	
