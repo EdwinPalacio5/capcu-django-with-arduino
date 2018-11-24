@@ -5,8 +5,8 @@ from apps.proveedor import views
 app_name="proveedor"
 
 urlpatterns = [
-    path('mostrar/', views.proveedor_show, name="mostrar"),
-    path('ajax/', views.ajax, name="ajax"),
+    path('', views.capcu, name="mostrar"),
+    path('mostrar/', views.proveedor_mostrar, name="mostrar"),
     path('dentro/', views.proveedores_dentro, name="dentro"),
     path('administrar-proveedores/',views.adm_proveedor , name="adm_proveedor"),
     path('nuevo-proveedor/<codigo>/', views.crear_proveedor, name="crear_proveedor"),

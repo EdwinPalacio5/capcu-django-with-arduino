@@ -5,6 +5,10 @@
 	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
 {% endblock %}
 
+{% block nav %}
+{% endblock %}
+
+
 {% block content %}
 <br>
 	{% if proveedores %}
@@ -42,4 +46,5 @@
 	{% else %}
 		<h1 class="text-center">No hay proveedores dentro del campus</h1>
 	{% endif %}
+
 {% endblock %}
