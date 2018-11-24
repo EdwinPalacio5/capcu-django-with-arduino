@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import time
 from datetime import date
 import serial
 from apps.proveedor.models import Proveedor, Control
+from apps.proveedor.forms import *
 
 # Create your views here.
 def proveedor_show(request):
@@ -93,3 +94,33 @@ def proveedores_dentro(request):
 	proveedores = Control.objects.filter(control=True)
 	return render(request, 'proveedor/proveedores_dentro.html', {'proveedores':proveedores})
 
+def adm_proveedor(request):
+	proveedores = Proveedor.objects.all()
+	return render(request, 'proveedor/listar_proveedores.html', {'proveedores':proveedores})
+
+def crear_proveedor(request,codigo):
+	if request.method == 'POST':
+		if 'btnForm1' in request.POST:
+			form_proveedor =  ProveedorForm(request.POST, request.FILES or None)
+			if form_proveedor.is_valid():
+				proveedor2 = form_proveedor.save(commit=False)
+				proveedor2.codigo_proveedor = codigo
+				proveedor2.save()
+				form_proveedor.save_m2m()
+				return redirect('proveedor:adm_proveedor')
+	else:
+		form_proveedor = ProveedorForm()
+	proveedores = Proveedor.objects.all()
+	return render(request, 'proveedor/crear_proveedor.html', {'form_proveedor':form_proveedor,'codigo':codigo})
+
+
+def editar_proveedor(request, id):
+	proveedor = Proveedor.objects.get(id=id)
+	if request.method == 'GET':
+		form = ProveedorForm(instance=proveedor)
+	else:
+		form = ProveedorForm(request.POST, request.FILES or None, instance=proveedor)
+		if form.is_valid():
+			form.save()
+		return redirect('proveedor:adm_proveedor')
+	return render(request, 'proveedor/editar_proveedor.html', {'form_proveedor':form, 'proveedor':proveedor,},)

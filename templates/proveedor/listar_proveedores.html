@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">Proveedores</div>
+        <div class="panel-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Categorias de producto</th>
+                <th scope="col">Puestos que abastece</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            {% if proveedores %}
+            <tbody>
+		        {% for proveedor in proveedores %}	
+              <tr class="table-success">
+                <th scope="row">{{proveedor.codigo_proveedor}}</th>
+                <td>{{proveedor.nombre_proveedor}}</td>
+                <td>
+                	{% for categoria in proveedor.categoria_proveedor.all %}
+                	{{categoria.nombre_categoria}}<br>
+                	{% endfor %}
+                </td>
+                <td>
+                	{% for puesto in proveedor.puesto_proveedor.all %}
+                	{{ puesto.nombre_puesto }}<br>
+                	{% endfor %}
+                </td>
+                <td>
+                  <a href="{% url 'proveedor:editar_proveedor' proveedor.id%}" class="btn btn-success"><i class="fa fa-cog"></i> Editar</a>
+                  <a href="#" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</a>
+                </td>
+              </tr>
+            
+          	{% endfor %}
+	         </tbody> 
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	{% else %}
+  <tbody>
+		<h1 class="text-center">No hay proveedores registrados</h1>
+  </tbody>
+	{% endif %}
+{% endblock %}

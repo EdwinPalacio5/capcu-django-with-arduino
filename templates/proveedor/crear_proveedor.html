@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">Nuevo Proveedor</div>
+        <div class="panel-body">
+    <!-- Formulario para crear proveedor-->
+    <form method = "post">
+      {% csrf_token %}
+        <div class="container">
+          <div class="row">
+                <div class="col-lg-5">
+                    <label >Codigo</label>
+                    <input class="form-control" type="text" name="codigo" id="codigo" value="{{codigo}}" disabled>
+                </div>
+                <div class="col-lg-5">
+                    <label for="{{form_proveedor.nombre_proveedor.name}}"> 
+                          {{form_proveedor.nombre_proveedor.label}}
+                    </label>
+                    {{form_proveedor.nombre_proveedor}}
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="container">
+        <div class="row">
+                <div class="col-lg-5">
+                    <label for="{{form_proveedor.categoria_proveedor.name}}"> 
+                        {{form_proveedor.categoria_proveedor.label}}
+                    </label>
+                    {{form_proveedor.categoria_proveedor}}
+                </div>
+                <div class="col-lg-5">
+                    <label for="{{form_proveedor.puesto_proveedor.name}}"> 
+                          {{form_proveedor.puesto_proveedor.label}}
+                    </label>
+                    {{form_proveedor.puesto_proveedor}}
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class= "row">
+                <div class="col-lg-4" ></div>
+                <div class="col-lg-3" >
+                   <button type="submit" class="btn btn-success btn-block" name="btnForm1">Registrar</button> 
+                </div>
+                <div class="col-lg-5" ></div>
+            </div>     
+        </div>
+        </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}
