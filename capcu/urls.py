@@ -25,7 +25,7 @@ urlpatterns = [
     path('componentes/', views.componentes, name="componentes"),
     path('accounts/login/', login, {'template_name':'login/login.html'}, name='login'),
     path('logout/', logout_then_login, name='logout'),
-    path('prueba/', views.prueba, name='prueba'),
+    path('', views.prueba, name='prueba'),
     #path('login/', views.login, name="login"),
 
 ]
