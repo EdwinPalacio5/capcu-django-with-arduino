@@ -15,4 +15,5 @@ urlpatterns = [
 	path('nuevo-puesto/', views.crear_puesto ,name="crear_puesto"),
 	path('editar-puesto/<id_puesto>/', views.editar_puesto,name="editar_puesto"),
 	path('eliminar-puesto/<id_puesto>/', views.eliminar_puesto,name="eliminar_puesto"),
+    path('historial/', views.historial,name="historial"),
 ]

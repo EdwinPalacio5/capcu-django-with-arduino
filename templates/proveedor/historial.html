@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br><br>
+	{% if controles %}
+		<form method="GET">
+			{% csrf_token %}
+			<div class="form-row">
+				<div class="form-group col-md-3">
+					<label for="id">ID proveedor</label>
+					<input type="text" class="form-control" name="txtID" id="txtID" placeholder="Identificador de proveedor">
+				</div>
+				<div class="form-group col-md-3">
+					<label for="fecha1">Fecha inicial</label>
+					<input type="date" class="form-control" name="txtFechaInicial" id="txtFechaInicial" placeholder="">
+				</div>
+				<div class="form-group col-md-3">
+					<label for="fecha2">Fecha final</label>
+					<input type="date" class="form-control" name="txtFechaFinal" id="txtFechaFinal" placeholder="">
+				</div>
+				<div class="form-group col-md-3">
+					<input type="submit" style="margin-top: 1.8em;" class="btn btn-info" name="btnBuscar" value="Buscar">
+				</div>
+			</div>
+		</form><br>
+		<table class="table">
+					<thead id="thead-dark" class="thead-dark">
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Fecha + hora de entrada</th>
+							<th scope="col">Fecha + hora de salida</th>
+							<th scope="col">Control</th>
+							<th scope="col"> ID Proveedor</th>
+							<th scope="col">Proveedor Nombre</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for control in controles %}
+							<tr>
+								<td>{{ control.id }}</td>
+								<td>{{ control.fecha_entrada }} {{ control.hora_entrada }}</td>
+								<td>{{ control.fecha_salida }} {{ control.hora_salida }}</td>
+								<td>{{ control.control }}</td>
+								<td>{{ control.proveedor.codigo_proveedor }}</td>
+								<td>{{ control.proveedor.nombre_proveedor }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table><br><br><br>	
+	{% endif %}
+{% endblock %}
