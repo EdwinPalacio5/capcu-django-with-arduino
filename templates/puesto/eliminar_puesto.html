@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br>
+	{% if puesto %}
+		<form method="POST">
+			{% csrf_token %}
+			<input type="text" name="id_puesto" value="{{ puesto.id }}" style="display: none;">
+			<h3>¿Desea eliminar <b> <i>{{ puesto.nombre_puesto }}</i></b> ?</h3>
+			<input type="submit" name="btnEliminar" class="btn btn-danger" value="Eliminar">
+			<input type="button" class="btn btn-secondary" onclick="location.href = '{% url 'proveedor:puestos_lista' %}'" value="Cancelar">
+		</form>
+	{% endif %}
+{% endblock %}

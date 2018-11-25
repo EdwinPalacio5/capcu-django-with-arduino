@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br>
+<form id="frmPuesto" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-info" name="btnGuardarPuesto" value="Guadar">
+    <input type="button" onclick="location.href = '{% url 'proveedor:puestos_lista' %}'" class="btn btn-danger" name="btnCancelarPuesto" value="Cancelar">
+</form>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        function reset(){
+            var confirm = confirm("¿Desea cancelar el registro?");
+            alert(confirm);
+            if (confirm == true) {
+                document.getElementById('frmPuesto').reset();
+            }
+        }
+    </script>
+{% endblock %}

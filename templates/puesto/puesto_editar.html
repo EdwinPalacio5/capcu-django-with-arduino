@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<br>
+	{% if form %}
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" class="btn btn-info" value="Guardar">
+			<input type="button" class="btn btn-secondary" onclick="location.href = '{% url 'proveedor:puestos_lista' %}'" value="Cancelar">
+		</form>
+	{% endif %}
+{% endblock %}

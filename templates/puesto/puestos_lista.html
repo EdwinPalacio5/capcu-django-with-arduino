@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<br><br>
+<a href="{% url 'proveedor:crear_puesto' %}"><i class="fas fa-plus-circle fa-2x"></i><b style="font-size: 1.2em;"> Agregar puesto</b></a><br><br>
+	{% if puestos %}
+				<table class="table">
+					<thead id="thead-dark" class="thead-dark">
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Nombre puesto</th>
+							<th scope="col">Representante</th>
+							<th scope="col">Ubicacion</th>
+							<th scope="col">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for puesto in puestos %}
+							<tr>
+								<td>{{ puesto.id }}</td>
+								<td>{{ puesto.nombre_puesto }}</td>
+								<td>{{ puesto.representante_puesto }}</td>
+								<td>{{ puesto.ubicacion_puesto }}</td>
+								<td>
+									<input type="submit" onclick="location.href = '{% url 'proveedor:editar_puesto' puesto.id %}'" class="btn btn-primary" value="Editar">
+									<input type="button" class="btn btn-danger" onclick="location.href='{% url 'proveedor:eliminar_puesto' puesto.id %}'" value="Eliminar">
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table><br>	
+	{% endif %}
+{% endblock %}

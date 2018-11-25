@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse
 import time
 from datetime import date
 import serial
-from apps.proveedor.models import Proveedor, Control
+from apps.proveedor.models import Proveedor, Control, Puesto
 from apps.proveedor.forms import *
 
 # Create your views here.
@@ -168,6 +168,42 @@ def crear_proveedor(request,codigo):
 	proveedores = Proveedor.objects.all()
 	return render(request, 'proveedor/crear_proveedor.html', {'form_proveedor':form_proveedor,'codigo':codigo})
 
+def puestos_lista(request):
+	puestos = Puesto.objects.all()
+	return render(request, 'puesto/puestos_lista.html', {'puestos':puestos})
+
+def editar_puesto(request, id_puesto):
+	puesto = Puesto.objects.get(id = id_puesto)
+	if request.method == 'GET':
+		form = PuestoForm(instance = puesto)
+	else:
+		form = PuestoForm(request.POST, request.FILES or None, instance=puesto)
+		if form.is_valid():
+			form.save()
+			pass
+		return redirect('proveedor:puestos_lista')
+	return render(request, 'puesto/puesto_editar.html', {'form':form,'puesto':puesto})
+
+def eliminar_puesto(request, id_puesto):
+	puesto = Puesto.objects.get(id = id_puesto)
+	if 'btnEliminar' in request.POST:
+		id_puesto = request.POST['id_puesto']
+		puesto = Puesto.objects.get(id = id_puesto)
+		puesto.delete()
+		return redirect('proveedor:puestos_lista')
+		pass
+	return render(request,'puesto/eliminar_puesto.html', {'puesto':puesto})
+
+def crear_puesto(request):
+	if request.method == 'POST':
+		form = PuestoForm(request.POST)
+		if form.is_valid():
+			form.save()
+			pass
+		return redirect('proveedor:puestos_lista')
+	else:
+		form = PuestoForm()
+	return render(request, 'puesto/crear_puesto.html', {'form':form})
 
 def editar_proveedor(request, id):
 	proveedor = Proveedor.objects.get(id=id)
