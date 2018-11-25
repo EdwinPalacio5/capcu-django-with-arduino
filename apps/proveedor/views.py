@@ -197,21 +197,23 @@ def eliminar_puesto(request, id_puesto):
 def historial(request):
 	controles = Control.objects.all()
 	if 'btnBuscar' in request.GET:
-		if request.GET['txtID'] != "" and request.GET['txtFechaInicial'] == "":
-			id_proveedor = request.GET['txtID']
-			proveedor = Proveedor.objects.get(codigo_proveedor = id_proveedor)
+		if request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] == "":
+			nombre_proveedor = request.GET['txtNombre']
+			proveedor = Proveedor.objects.get(nombre_proveedor__contains = nombre_proveedor)
 			controles = Control.objects.filter(proveedor = proveedor)
 			pass
-		elif request.GET['txtID'] == "" and request.GET['txtFechaInicial'] != "":
+
+		elif request.GET['txtNombre'] == "" and request.GET['txtFechaInicial'] != "":
 			fecha_inicio = request.GET['txtFechaInicial']
 			fecha_final = request.GET['txtFechaFinal']
 			controles = Control.objects.filter(fecha_entrada__range=(fecha_inicio,fecha_final))
 			pass
-		elif request.GET['txtID'] != "" and request.GET['txtFechaInicial'] != "":
+			
+		elif request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] != "":
 			fecha_inicio = request.GET['txtFechaInicial']
 			fecha_final = request.GET['txtFechaFinal']
-			id_proveedor = request.GET['txtID']
-			proveedor = Proveedor.objects.get(codigo_proveedor = id_proveedor)
+			nombre_proveedor = request.GET['txtNombre']
+			proveedor = Proveedor.objects.get(nombre_proveedor__contains = nombre_proveedor)
 			controles = Control.objects.filter(proveedor = proveedor).filter(fecha_entrada__range=(fecha_inicio,fecha_final))
 			pass
 		pass

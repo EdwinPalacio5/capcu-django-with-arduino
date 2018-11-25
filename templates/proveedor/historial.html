@@ -12,8 +12,8 @@
 			{% csrf_token %}
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<label for="id">ID proveedor</label>
-					<input type="text" class="form-control" name="txtID" id="txtID" placeholder="Identificador de proveedor">
+					<label for="id">Nombre proveedor</label>
+					<input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="Nombre del proveedor">
 				</div>
 				<div class="form-group col-md-3">
 					<label for="fecha1">Fecha inicial</label>
@@ -52,5 +52,7 @@
 						{% endfor %}
 					</tbody>
 				</table><br><br><br>	
+	{% else %}
+	<h3>No se encontraron resultados. <a style="color: blue;" href="{% url 'proveedor:historial' %}">Regresar</a></h3>
 	{% endif %}
 {% endblock %}
