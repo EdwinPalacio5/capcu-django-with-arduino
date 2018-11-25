@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+{%block nav%}{%endblock%}
 <br>
   <div class="row">
     <div class="col-lg-12">
@@ -26,22 +29,78 @@
             <tbody>
 		        {% for proveedor in proveedores %}	
               <tr class="table-success">
-                <th scope="row">{{proveedor.codigo_proveedor}}</th>
-                <td>{{proveedor.nombre_proveedor}}</td>
+                <th scope="row">{{proveedor.0.codigo_proveedor}}</th>
+                <td>{{proveedor.0.nombre_proveedor}}</td>
                 <td>
-                	{% for categoria in proveedor.categoria_proveedor.all %}
+                	{% for categoria in proveedor.0.categoria_proveedor.all %}
                 	{{categoria.nombre_categoria}}<br>
                 	{% endfor %}
                 </td>
                 <td>
-                	{% for puesto in proveedor.puesto_proveedor.all %}
+                	{% for puesto in proveedor.0.puesto_proveedor.all %}
                 	{{ puesto.nombre_puesto }}<br>
                 	{% endfor %}
                 </td>
                 <td>
-                  <a href="{% url 'proveedor:editar_proveedor' proveedor.id%}" class="btn btn-success"><i class="fa fa-cog"></i> Editar</a>
-                  <a href="#" class="btn btn-danger"><i class="fa fa-times"></i> Eliminar</a>
+                  <a class="btn btn-success" data-toggle = "modal"  href="#f{{forloop.counter}}" ><i class="fa fa-cog"></i> Editar</a>
+                  <a class="btn btn-danger" data-toggle = "modal"  href="#{{proveedor.0.id}}" ><i class="fa fa-times"></i> Eliminar</a>
                 </td>
+                <!-- Ventana emergente para eliminar-->
+                <div class="modal fade" id="{{proveedor.0.id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Header de ventana-->
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Eliminar Proveedor</h2>
+                                    <button tyle="button" class="close" data-dismiss="modal" aria-hidden = "true">&times;</button>
+                                </div>
+                                <!-- Contenido de la ventana -->
+                                <div class="modal-body">
+                                        <h3 class="text-center">¿Desea eliminar el proveedor {{proveedor.0.nombre_proveedor}}?</h3> 
+                                </div>
+                                <!--Footer-->
+                                <div class="modal-footer">
+                                    <form method="post" class="formulario_eliminar" data-url='/proveedor/administrar-proveedores/'>
+                                        {% csrf_token %}
+                                        <input type="hidden" name="inputEliminar" value= "{{proveedor.0.id}}">
+                                        <button type="submit" class="btn btn-danger " name="btnEliminar">Eliminar</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss= "modal" name="btnC">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ventana Emergente para editar formulario-->
+                    <div class="modal fade" id="f{{forloop.counter}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Header de ventana-->
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Modificar Proveedor</h2>
+                                    <button tyle="button" class="close" data-dismiss="modal" aria-hidden = "true">&times;</button>
+                                </div>
+                                <!-- Contenido de la ventana -->
+                                <div class="modal-body">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        {{proveedor.1.as_p}}
+                                        <input type="hidden" name="inputEditar" value= "{{proveedor.0.id}}">
+                                        <button type="submit" class="btn btn-success btn-block" name="btnEditar">Guardar Cambios</button>
+                                        
+                                    </form>
+                                </div>
+
+                                <!-- Footer-->
+                                <div class="modal-footer">
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
               </tr>
             
           	{% endfor %}
@@ -57,4 +116,33 @@
 		<h1 class="text-center">No hay proveedores registrados</h1>
   </tbody>
 	{% endif %}
+
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var $myForm = $('.formulario_eliminar');
+    $myForm.submit(function(event){
+      event.preventDefault();
+      var $formData = $myForm.serialize();
+      var $thisURL = $myForm.attr('data-url') || window.loaction.href;
+      $.ajax({
+        method:'POST',
+        url: $thisURL,
+        data: $formData,
+        success: handleSuccess,
+        error: handleError, 
+      });
+      function handleSuccess(data){
+        alert('Se ha eliminado correctamente');
+      }
+      function handleError(ThrowError){
+        console.log(ThrowError);
+      }
+    });
+  });
+</script>
+
+
+
 {% endblock %}

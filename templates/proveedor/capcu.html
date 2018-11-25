@@ -18,7 +18,7 @@
                             <li>
                                 <div class="btn-group"> 
                                     <button class="btn btn-theme" id="proveedor">Proveedores dentro del campus</button> 
-                                    <button class="btn btn-theme">Opcion 1</button> 
+                                    <button class="btn btn-theme" id="adm_prov">Administrar proveedores</button> 
                                     <button class="btn btn-theme">Opcion 2</button> 
                                 </div>
                             </li>
@@ -31,7 +31,7 @@
 
 {% block content %}
 <br><br>
-<div id="capcu" url-dentro="{% url 'proveedor:dentro' %}" url-mostrar="{% url 'proveedor:mostrar' %}"></div>
+<div id="capcu" url-dentro="{% url 'proveedor:dentro' %}" url-mostrar="{% url 'proveedor:mostrar' %}" url-admp="{%url 'proveedor:adm_proveedor' %}" ></div>
 
 <div class="col-md-12" id="proveedor_id">
     <h1 class="text-center">Coloque la tarjeta sobre el lector</h1>
@@ -57,6 +57,19 @@ $(document).ready(function() {
 <script type="text/javascript">
     $("#proveedor").click(function(){
         var url = $("#capcu").attr("url-dentro");
+
+        $.ajax({
+            url: url,
+            success: function(data){
+                $("#proveedor_id").html(data);
+        }
+    });
+});
+</script>
+
+<script type="text/javascript">
+    $("#adm_prov").click(function(){
+        var url = $("#capcu").attr("url-admp");
 
         $.ajax({
             url: url,

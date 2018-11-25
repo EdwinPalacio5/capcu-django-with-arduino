@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 import time
 from datetime import date
 import serial
@@ -63,6 +63,8 @@ def proveedor_mostrar(request):
 	else:
 		mensaje = 'No se encontró ningun proveedor con el codigo: '+codigo+', '+'¿Desea Registrarlo?'
 
+
+
 	context={
 		'proveedor': proveedor,
 		'mensaje': mensaje,
@@ -121,8 +123,35 @@ def ajax(request):
 
 
 def adm_proveedor(request):
+	lista_proveedores = list()
+	lista_interna = list()
+	if request.is_ajax():
+		idEliminar = request.POST.get('inputEliminar')
+		proveedor_e = Proveedor.objects.filter(id =idEliminar).exists()
+		if proveedor_e:
+			proveedor = Proveedor.objects.get(id =idEliminar)
+			proveedor.delete()
+			return redirect('proveedor:adm_proveedor')
+	if request.method == 'POST':
+		if 'btnEditar' in request.POST:
+			id_editar = request.POST.get('inputEditar')
+			proveedor_el = Proveedor.objects.filter(id = id_editar).exists()
+			if proveedor_el:
+				proveedor = Proveedor.objects.get(id = id_editar)
+				form_proveedor = ProveedorForm(request.POST, instance= proveedor)
+				if form_proveedor.is_valid():
+					form_proveedor.save()
+					return redirect('proveedor:adm_proveedor')
+
 	proveedores = Proveedor.objects.all()
-	return render(request, 'proveedor/listar_proveedores.html', {'proveedores':proveedores})
+	for proveedor in proveedores:
+		form = ProveedorForm(instance=proveedor)
+		lista_interna.append(proveedor)
+		lista_interna.append(form)
+		lista_proveedores.append(lista_interna)
+		lista_interna=[]
+
+	return render(request, 'proveedor/listar_proveedores.html', {'proveedores': lista_proveedores})
 
 def crear_proveedor(request,codigo):
 	if request.method == 'POST':
