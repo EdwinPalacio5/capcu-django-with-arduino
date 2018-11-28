@@ -3,32 +3,42 @@
 
 {% block extracss %}
 	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 {% endblock %}
-
 {% block content %}
 
 <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-{%block nav%}{%endblock%}
+
 <br>
   <div class="row">
     <div class="col-lg-12">
       <div class="panel panel-default">
-        <div class="panel-heading">Proveedores</div>
-        <div class="panel-body">
+        <div class="panel-heading">
+           {% if request.user.is_authenticated%}
+          <a href="{% url 'proveedor:capcu2' %}"><i class="fas fa-plus-circle fa-2x"></i><b style="font-size: 1.2em;"> Nuevo proveedor</b></a><br><br>
+          {%else%}
+          Proveedores
+          {%endif%}
+          
+        </div>
+        <!--<div class="panel-body">-->
           <table class="table table-hover">
-            <thead>
+            <thead id="thead-dark" class="thead-dark">
               <tr>
                 <th scope="col">Codigo</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Categorias de producto</th>
                 <th scope="col">Puestos que abastece</th>
+                {% if request.user.is_authenticated%}
+
                 <th scope="col">Acciones</th>
+                {%endif%}
               </tr>
             </thead>
             {% if proveedores %}
             <tbody>
 		        {% for proveedor in proveedores %}	
-              <tr class="table-success">
+              <tr>
                 <th scope="row">{{proveedor.0.codigo_proveedor}}</th>
                 <td>{{proveedor.0.nombre_proveedor}}</td>
                 <td>
@@ -41,6 +51,7 @@
                 	{{ puesto.nombre_puesto }}<br>
                 	{% endfor %}
                 </td>
+                 {% if request.user.is_authenticated%}
                 <td>
                   <a class="btn btn-success" data-toggle = "modal"  href="#f{{forloop.counter}}" ><i class="fa fa-cog"></i> Editar</a>
                   <a class="btn btn-danger" data-toggle = "modal"  href="#{{proveedor.0.id}}" ><i class="fa fa-times"></i> Eliminar</a>
@@ -60,7 +71,7 @@
                                 </div>
                                 <!--Footer-->
                                 <div class="modal-footer">
-                                    <form method="post" class="formulario_eliminar" data-url='/proveedor/administrar-proveedores/'>
+                                    <form method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="inputEliminar" value= "{{proveedor.0.id}}">
                                         <button type="submit" class="btn btn-danger " name="btnEliminar">Eliminar</button>
@@ -98,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-
+                {%endif%}
 
 
               </tr>
@@ -106,7 +117,7 @@
           	{% endfor %}
 	         </tbody> 
           </table>
-        </div>
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -119,7 +130,7 @@
 
 
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
   $(document).ready(function(){
     var $myForm = $('.formulario_eliminar');
     $myForm.submit(function(event){
@@ -141,7 +152,7 @@
       }
     });
   });
-</script>
+</script> -->
 
 
 

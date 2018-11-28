@@ -26,10 +26,14 @@
 </head>
 
 <body>
-
+	
+	
 	<div id="wrapper">
 		<!-- start header -->
+
 		{% block nav %}
+		{% if request.user.is_authenticated%}
+	
 		<header>
 			<div class="navbar navbar-default navbar-static-top">
 				<div class="container">
@@ -39,32 +43,31 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-						<a class="navbar-brand" href="index.html"><img src="{% static 'img/logo.jpg' %} " alt="" width="199" height="90" /></a>
+						<a class="navbar-brand" href="{% url 'proveedor:home'%}"><img src="{% static 'img/logo.jpg' %} " alt="" width="199" height="90" /></a>
 					</div>
 					<div class="navbar-collapse collapse ">
 						<ul class="nav navbar-nav">
 							<li class="dropdown active">
-								<a href="{% url 'proveedor:mostrar' %}" >Inicio</i></a>
+								<a href="{% url 'proveedor:home' %}" >Inicio</i></a>
 
 							</li>
-							<li><a href="{% url 'proveedor:dentro' %}">Proveedores dentro del campus</a></li>
-							<li><a href="{% url 'proveedor:adm_proveedor' %}">Administrar Proveedores</a></li>
-							<li><a href="{% url 'proveedor:puestos_lista' %}">Administrar puestos</a></li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Blog <i class="fa fa-angle-down"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="blog-rightsidebar.html">Blog right sidebar</a></li>
-									<li><a href="blog-leftsidebar.html">Blog left sidebar</a></li>
-									<li><a href="post-rightsidebar.html">Post right sidebar</a></li>
-									<li><a href="post-leftsidebar.html">Post left sidebar</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Contact</a></li>
+							<li><a href="{% url 'proveedor:dentro' %}">Control</a></li>
+							<li><a href="{% url 'proveedor:adm_proveedor' %}">Proveedores</a></li>
+							<li><a href="{% url 'proveedor:puestos_lista' %}">Puestos</a></li>
+							<li><a href="{% url 'proveedor:historial' %}">Historial de E/S</a></li>
+							<li class="nav-item">
+                        	<a class="nav-link" href="{%url 'proveedor:home'%}"><span class="icon-user"></span> Bienvenido: {{user.username}}</a>
+                    		</li>
+							<li><a href="{% url 'proveedor:historial' %}">Logout</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</header>
+		{%else%}
+		{%endif%}
 		{% endblock %}
+		
 		<!-- end header -->
 		<section id="featured" class="bg">
 			<!-- start slider -->

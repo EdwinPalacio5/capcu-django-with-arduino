@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+{% block nav %}
+{% endblock %}
+<br><br>
+<div class="col-md-12" id="proveedor_id">
+    {% if existencia %}
+    	<h1>{{mensaje}}</h1>
+    {% else %}
+    	<h1>{{mensaje}}</h1>
+    	<a class="btn btn-success"   href="{% url 'proveedor:crear_proveedor' codigo %}" ><i class="fa fa-cog"></i>Registrar nuevo</a>
+    {%endif%}
+</div>
+
+{% endblock %}

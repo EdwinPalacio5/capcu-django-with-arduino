@@ -7,8 +7,17 @@
 {% endblock %}
 
 {% block content %}
+
 <br><br>
+<div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+ {% if request.user.is_authenticated%}
 <a href="{% url 'proveedor:crear_puesto' %}"><i class="fas fa-plus-circle fa-2x"></i><b style="font-size: 1.2em;"> Agregar puesto</b></a><br><br>
+{%else%}Puestos de Venta
+{%endif%}
+</div>
 	{% if puestos %}
 				<table class="table">
 					<thead id="thead-dark" class="thead-dark">
@@ -17,7 +26,9 @@
 							<th scope="col">Nombre puesto</th>
 							<th scope="col">Representante</th>
 							<th scope="col">Ubicacion</th>
+							 {% if request.user.is_authenticated%}
 							<th scope="col">Acciones</th>
+							{%endif%}
 						</tr>
 					</thead>
 					<tbody>
@@ -27,13 +38,20 @@
 								<td>{{ puesto.nombre_puesto }}</td>
 								<td>{{ puesto.representante_puesto }}</td>
 								<td>{{ puesto.ubicacion_puesto }}</td>
+								 {% if request.user.is_authenticated%}
 								<td>
 									<input type="submit" onclick="location.href = '{% url 'proveedor:editar_puesto' puesto.id %}'" class="btn btn-primary" value="Editar">
 									<input type="button" class="btn btn-danger" onclick="location.href='{% url 'proveedor:eliminar_puesto' puesto.id %}'" value="Eliminar">
 								</td>
+								 {% endif%}
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table><br>	
 	{% endif %}
+</div>
+</div>
+</div>
+</div>
+
 {% endblock %}

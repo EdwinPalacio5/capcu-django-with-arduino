@@ -47,9 +47,12 @@ def proveedor_mostrar(request):
 
 	codigo=codigo.decode('utf-8')
 	codigo=codigo[1:12]
-
 	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
-	if existencia:
+	
+	if codigo=='82 CD CD 73':
+		return redirect('proveedor:home')
+
+	elif existencia:
 		proveedor = Proveedor.objects.get(codigo_proveedor=codigo)
 		if not proveedor.estado_control:
 			entrada(request, proveedor)
@@ -125,14 +128,21 @@ def ajax(request):
 def adm_proveedor(request):
 	lista_proveedores = list()
 	lista_interna = list()
-	if request.is_ajax():
+	'''if request.is_ajax():
 		idEliminar = request.POST.get('inputEliminar')
 		proveedor_e = Proveedor.objects.filter(id =idEliminar).exists()
 		if proveedor_e:
 			proveedor = Proveedor.objects.get(id =idEliminar)
 			proveedor.delete()
-			return redirect('proveedor:adm_proveedor')
+			return redirect('proveedor:adm_proveedor')'''
 	if request.method == 'POST':
+		if 'inputEliminar' in request.POST:
+			idEliminar = request.POST.get('inputEliminar')
+			proveedor_e = Proveedor.objects.filter(id =idEliminar).exists()
+			if proveedor_e:
+				proveedor = Proveedor.objects.get(id =idEliminar)
+				proveedor.delete()
+				return redirect('proveedor:adm_proveedor')
 		if 'btnEditar' in request.POST:
 			id_editar = request.POST.get('inputEditar')
 			proveedor_el = Proveedor.objects.filter(id = id_editar).exists()
@@ -241,3 +251,31 @@ def editar_proveedor(request, id):
 			form.save()
 		return redirect('proveedor:adm_proveedor')
 	return render(request, 'proveedor/editar_proveedor.html', {'form_proveedor':form, 'proveedor':proveedor,},)
+
+def capcu2(request):
+	return render(request, 'proveedor/capturar_codigo.html')
+
+def home(request):
+	return render(request, 'base/index.html')
+
+def captura(request):
+	codigo=lectura(request)
+	mensaje=''
+
+	codigo=codigo.decode('utf-8')
+	codigo=codigo[1:12]
+
+	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
+	if existencia:
+		mensaje = 'Ya se encuentra registrado un proveedor con el codigo: '+codigo+', '+'Intente con una nueva tarjeta'
+	else:
+		mensaje = 'El codigo de la tarjeta es: '+codigo+', '+'¿Desea Registrarlo?'
+
+
+
+	context={
+		'mensaje': mensaje,
+		'existencia': existencia,
+		'codigo': codigo,
+	}
+	return render(request, 'proveedor/pre_crear.html', context)

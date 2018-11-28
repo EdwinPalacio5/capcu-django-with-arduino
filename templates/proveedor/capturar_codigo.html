@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+
+<br><br>
+<div id="capcu" url-mostrar="{% url 'proveedor:captura' %}" ></div>
+
+<div class="col-md-12" id="proveedor_id">
+    <h1 class="text-center">Coloque la tarjeta sobre el lector</h1>
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var url = $("#capcu").attr("url-mostrar");
+    function readProveedor() {
+        $.ajax({
+            url: url,
+            success: function(data){
+                $("#proveedor_id").html(data)
+            }
+        });
+    }
+    var inter = setInterval(readProveedor, 3000);
+});
+</script>
+{% endblock %}

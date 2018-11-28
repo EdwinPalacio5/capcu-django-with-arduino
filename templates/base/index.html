@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extracss %}
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+{% endblock %}
+
+
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Bienvenido a CAPCU!</h1>
+  <p class="lead">Sistema que facilita el control del acceso de proveedores a las instalaciones del campus universitario</p>
+  <hr class="my-4">
+  {% if request.user.is_authenticated%}
+
+  {% else%}
+  <p>Para ingresar como administrador, por favor inicie sesión con sus credenciales.</p><br>
+  <a class="btn btn-primary btn-lg" href="{%url 'login'%}" role="button">Iniciar Sesión</a>
+  {%endif%}
+</div>
+{%endblock%}
