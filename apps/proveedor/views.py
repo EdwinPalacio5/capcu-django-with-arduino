@@ -29,7 +29,8 @@ def salida(request, proveedor):
 	proveedor.save()
 
 def lectura(request):
-	arduino = serial.Serial('COM4', 9600)
+	arduino = serial.Serial('COM3', 9600)
+	time.sleep(2)
 	codigo=''
 	while codigo == '':
 		codigo = arduino.readline()
@@ -50,9 +51,19 @@ def proveedor_mostrar(request):
 	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
 	
 	if codigo=='82 CD CD 73':
+		arduino = serial.Serial('COM3', 9600)
+		time.sleep(2)
+		arduino.write(b'a')
+		time.sleep(2)
+		arduino.close()
 		return redirect('proveedor:home')
 
 	elif existencia:
+		arduino = serial.Serial('COM3', 9600)
+		time.sleep(2)
+		arduino.write(b'a')
+		time.sleep(1)
+		arduino.close()
 		proveedor = Proveedor.objects.get(codigo_proveedor=codigo)
 		if not proveedor.estado_control:
 			entrada(request, proveedor)
@@ -64,6 +75,11 @@ def proveedor_mostrar(request):
 			ingreso_salida='Hora de salida'
 
 	else:
+		arduino = serial.Serial('COM3', 9600)
+		time.sleep(2)
+		arduino.write(b'b')
+		time.sleep(1)
+		arduino.close()
 		mensaje = 'No se encontró ningun proveedor con el codigo: '+codigo+', '+'¿Desea Registrarlo?'
 
 
