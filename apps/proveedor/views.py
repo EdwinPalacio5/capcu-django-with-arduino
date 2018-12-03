@@ -29,7 +29,7 @@ def salida(request, proveedor):
 	proveedor.save()
 
 def lectura(request):
-	arduino = serial.Serial('COM3', 9600)
+	arduino = serial.Serial('COM4', 9600)
 	time.sleep(2)
 	codigo=''
 	while codigo == '':
@@ -97,49 +97,6 @@ def proveedor_mostrar(request):
 def proveedores_dentro(request):
 	proveedores = Control.objects.filter(control=True)
 	return render(request, 'proveedor/proveedores_dentro.html', {'proveedores':proveedores})
-'''
-def ajax(request):
-	arduino = serial.Serial('COM4', 9600, timeout=2)
-	codigo=''
-	mensaje=''
-	proveedor=''
-	control=''
-	ingreso_salida=''
-	hora_ingreso=time.strftime("%H:%M:%S")
-
-	while codigo == '':
-		codigo = arduino.readline()
-	arduino.close()
-
-	codigo=codigo.decode('utf-8')
-	codigo=codigo[1:12]
-
-	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
-	if existencia:
-		proveedor = Proveedor.objects.get(codigo_proveedor=codigo)
-		if not proveedor.estado_control:
-			entrada(request, proveedor)
-			control='Entrada'
-			ingreso_salida='Hora de ingreso'
-		else:
-			salida(request, proveedor)
-			control='Salida'
-			ingreso_salida='Hora de salida'
-
-	else:
-		mensaje = 'No hay proveedores con el codigo: '+codigo+', '+'¿Desea Registrarlo?'
-
-	context={
-		'proveedor': proveedor,
-		'mensaje': mensaje,
-		'existencia': existencia,
-		'hora_ingreso': hora_ingreso,
-		'control': control,
-		'ingreso_salida':ingreso_salida,
-	}
-	return render(request, 'proveedor/ajax.html', context)
-'''
-
 
 def adm_proveedor(request):
 	lista_proveedores = list()
@@ -295,3 +252,6 @@ def captura(request):
 		'codigo': codigo,
 	}
 	return render(request, 'proveedor/pre_crear.html', context)
+
+def logout(request):
+	return render(request, 'proveedor/logout.html')

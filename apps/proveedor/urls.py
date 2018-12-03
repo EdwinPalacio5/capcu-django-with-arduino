@@ -19,4 +19,5 @@ urlpatterns = [
 	path('eliminar-puesto/<id_puesto>/', views.eliminar_puesto,name="eliminar_puesto"),
     path('historial/', views.historial,name="historial"),
     path('home/', views.home,name="home"),
+    path('logout/', views.logout,name="logout"),
 ]
