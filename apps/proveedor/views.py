@@ -185,7 +185,15 @@ def eliminar_puesto(request, id_puesto):
 	return render(request,'puesto/eliminar_puesto.html', {'puesto':puesto})
 
 def historial(request):
-	controles = Control.objects.all()
+	
+	if not request.user.is_authenticated:
+		print("No registred")
+		controles = Control.objects.all().order_by('-fecha_entrada')
+		print(controles)
+		pass
+	else:
+		controles = Control.objects.all()
+
 	if 'btnBuscar' in request.GET:
 		if request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] == "":
 			nombre_proveedor = request.GET['txtNombre']

@@ -10,23 +10,25 @@
 	{% if controles %}
 		<form method="GET">
 			{% csrf_token %}
+			{% if request.user.is_authenticated %}
 			<div class="form-row">
 				<div class="form-group col-md-3">
 					<label for="id">Nombre proveedor</label>
 					<input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="Nombre del proveedor">
 				</div>
-				<div class="form-group col-md-3">
-					<label for="fecha1">Fecha inicial</label>
-					<input type="date" class="form-control" name="txtFechaInicial" id="txtFechaInicial" placeholder="">
-				</div>
-				<div class="form-group col-md-3">
-					<label for="fecha2">Fecha final</label>
-					<input type="date" class="form-control" name="txtFechaFinal" id="txtFechaFinal" placeholder="">
-				</div>
+					<div class="form-group col-md-3">
+						<label for="fecha1">Fecha inicial</label>
+						<input type="date" class="form-control" name="txtFechaInicial" id="txtFechaInicial" placeholder="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="fecha2">Fecha final</label>
+						<input type="date" class="form-control" name="txtFechaFinal" id="txtFechaFinal" placeholder="">
+					</div>
 				<div class="form-group col-md-3">
 					<input type="submit" style="margin-top: 1.8em;" class="btn btn-info" name="btnBuscar" value="Buscar">
 				</div>
 			</div>
+			{%endif%}
 		</form><br>
 		<table class="table">
 					<thead id="thead-dark" class="thead-dark">
