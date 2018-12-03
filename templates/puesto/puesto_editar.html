@@ -11,8 +11,8 @@
 		<form method="POST">
 			{% csrf_token %}
 			{{ form.as_p }}
-			<input type="submit" class="btn btn-info" value="Guardar">
-			<input type="button" class="btn btn-secondary" onclick="location.href = '{% url 'proveedor:puestos_lista' %}'" value="Cancelar">
+			<input type="submit" class="btn btn-primary" value="Guardar">
+			<input type="button" class="btn btn-secondary" style="background-color: #909497; color: #fff" onclick="location.href = '{% url 'proveedor:puestos_lista' %}'" value="Cancelar">
 		</form>
 	{% endif %}
 {% endblock %}

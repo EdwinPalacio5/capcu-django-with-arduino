@@ -14,8 +14,9 @@
       <div class="panel panel-default">
         <div class="panel-heading">
  {% if request.user.is_authenticated%}
-<a href="{% url 'proveedor:crear_puesto' %}"><i class="fas fa-plus-circle fa-2x"></i><b style="font-size: 1.2em;"> Agregar puesto</b></a><br><br>
-{%else%}Puestos de Venta
+<a href="{% url 'proveedor:crear_puesto' %}"><i class="fas fa-plus-circle fa-2x"></i><b style="font-size: 1.2em;"> Agregar puesto</b></a>
+{%else%}
+	Puestos de Venta
 {%endif%}
 </div>
 	{% if puestos %}
@@ -40,8 +41,35 @@
 								<td>{{ puesto.ubicacion_puesto }}</td>
 								 {% if request.user.is_authenticated%}
 								<td>
-									<input type="submit" onclick="location.href = '{% url 'proveedor:editar_puesto' puesto.id %}'" class="btn btn-primary" value="Editar">
-									<input type="button" class="btn btn-danger" onclick="location.href='{% url 'proveedor:eliminar_puesto' puesto.id %}'" value="Eliminar">
+									<input type="submit" style="width: 80px;" onclick="location.href = '{% url 'proveedor:editar_puesto' puesto.id %}'" class="btn btn-primary" value="Editar">
+									<input type="button" class="btn btn-danger" value="Eliminar"  data-toggle="modal" data-target="#myModal{{ puesto.id }}">
+									<div class="modal" id="myModal{{ puesto.id }}">
+									  <div class="modal-dialog">
+									    <div class="modal-content">
+
+									      <!-- Modal Header -->
+									      <div class="modal-header">
+									        <h4 class="modal-title">Gestion de puestos - Universidad de El Salvador</h4>
+									        <button type="button" class="close" data-dismiss="modal">&times;</button>
+									      </div>
+
+									      <!-- Modal body -->
+									      <div class="modal-body">
+									        <h3>¿Desea eliminar el puesto <i><b>{{ puesto.nombre_puesto }}</b></i>?</h3>
+									      </div>
+
+									      <!-- Modal footer -->
+									      <div class="modal-footer">
+									      	<form method="POST">
+									      		{% csrf_token %}
+									      		<button type="submit" name="btnEliminarPuesto{{ puesto.id }}" class="btn btn-danger">Eliminar</button>
+									        	<button type="button" style="background-color: #909497; color: #fff;" name="btnCancelar" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+									      	</form>
+									      </div>
+
+									    </div>
+									  </div>
+									</div>
 								</td>
 								 {% endif%}
 							</tr>

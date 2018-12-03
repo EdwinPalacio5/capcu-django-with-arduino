@@ -153,6 +153,13 @@ def crear_proveedor(request,codigo):
 
 def puestos_lista(request):
 	puestos = Puesto.objects.all()
+	for x in puestos:
+		if 'btnEliminarPuesto' + str(x.id) in request.POST:
+			puesto = Puesto.objects.get(id = x.id)
+			puesto.delete()
+			return redirect('proveedor:puestos_lista')
+			pass
+		pass
 	return render(request, 'puesto/puestos_lista.html', {'puestos':puestos})
 
 def editar_puesto(request, id_puesto):
