@@ -252,6 +252,3 @@ def captura(request):
 		'codigo': codigo,
 	}
 	return render(request, 'proveedor/pre_crear.html', context)
-
-def logout(request):
-	return render(request, 'proveedor/logout.html')
