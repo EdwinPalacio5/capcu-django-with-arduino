@@ -19,6 +19,8 @@ void setup() {
   mfrc522.PCD_Init();
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
   
   
 }
@@ -32,6 +34,7 @@ void loop() {
       if(option == 'a')
       {
         digitalWrite(2,HIGH);
+        digitalWrite(3,HIGH);
         delay(100);
       
         for (int iTono = 0; iTono < 10; iTono++)
@@ -41,14 +44,17 @@ void loop() {
         }
         noTone(pinBuzzer);
         digitalWrite(2,LOW);
+        digitalWrite(3,LOW);
       }
       if(option == 'b')
       {
-        digitalWrite(3,HIGH);
+        digitalWrite(5,HIGH);
+        digitalWrite(6,HIGH);
         delay(100);
         tone(pinBuzzer, 400);
         delay(1000);
-        digitalWrite(3,LOW);
+        digitalWrite(5,LOW);
+        digitalWrite(6,LOW);
         noTone(pinBuzzer);
       }
       
