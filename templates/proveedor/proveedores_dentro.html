@@ -11,8 +11,9 @@
 {% block content %}
 <br>
 	{% if proveedores %}
+<div class="panel panel-default">
 <table class="table table-hover">
-  <thead>
+  <thead class="thead-dark">
     <tr>
       <th scope="col">Codigo</th>
       <th scope="col">Nombre</th>
@@ -23,7 +24,7 @@
   </thead>
   <tbody>
 		{% for proveedor in proveedores %}	
-    <tr class="table-warning">
+    <tr>
       <th scope="row">{{proveedor.proveedor.codigo_proveedor}}</th>
       <td>{{proveedor.proveedor.nombre_proveedor}}</td>
       <td>
@@ -38,10 +39,10 @@
       </td>
       <td>{{proveedor.hora_entrada}}</td>
     </tr>
-  
 		{% endfor %}
-	</tbody> 
+	</tbody>
 </table>
+</div>
 	{% else %}
 		<h1 class="text-center">No hay proveedores dentro del campus</h1>
 	{% endif %}

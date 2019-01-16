@@ -51,7 +51,7 @@ def proveedor_mostrar(request):
 	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
 	
 	if codigo=='82 CD CD 73':
-		arduino = serial.Serial('COM3', 9600)
+		arduino = serial.Serial('COM4', 9600)
 		time.sleep(2)
 		arduino.write(b'a')
 		time.sleep(2)
@@ -59,7 +59,7 @@ def proveedor_mostrar(request):
 		return redirect('proveedor:home')
 
 	elif existencia:
-		arduino = serial.Serial('COM3', 9600)
+		arduino = serial.Serial('COM4', 9600)
 		time.sleep(2)
 		arduino.write(b'a')
 		time.sleep(1)
@@ -75,12 +75,12 @@ def proveedor_mostrar(request):
 			ingreso_salida='Hora de salida'
 
 	else:
-		arduino = serial.Serial('COM3', 9600)
+		arduino = serial.Serial('COM4', 9600)
 		time.sleep(2)
 		arduino.write(b'b')
 		time.sleep(1)
 		arduino.close()
-		mensaje = 'No se encontró ningun proveedor con el codigo: '+codigo+', '+'¿Desea Registrarlo?'
+		mensaje = 'No se encontró ningun proveedor con el codigo: '+codigo+', '+'Consulte con el administrador para registrarla'
 
 
 
@@ -187,9 +187,7 @@ def eliminar_puesto(request, id_puesto):
 def historial(request):
 	
 	if not request.user.is_authenticated:
-		print("No registred")
-		controles = Control.objects.all().order_by('-fecha_entrada')
-		print(controles)
+		controles = Control.objects.filter(fecha_entrada = date.today())
 		pass
 	else:
 		controles = Control.objects.all()
