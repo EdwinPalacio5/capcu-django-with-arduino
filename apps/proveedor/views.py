@@ -50,7 +50,7 @@ def proveedor_mostrar(request):
 	codigo=codigo[1:12]
 	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
 	
-	if codigo=='82 CD CD 73':
+	if codigo=='90 4D 32 5C':
 		arduino = serial.Serial('COM4', 9600)
 		time.sleep(2)
 		arduino.write(b'a')
