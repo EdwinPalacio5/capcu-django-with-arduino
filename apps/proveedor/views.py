@@ -185,36 +185,78 @@ def eliminar_puesto(request, id_puesto):
 	return render(request,'puesto/eliminar_puesto.html', {'puesto':puesto})
 
 def historial(request):
-	
+	contexto = {}
+	no_controles = "¡No se encontro ningún registro con los parametros recibidos!"
+	faltan_parametros = "Parametros insuficientes para realizar el filtro de controles."
 	if not request.user.is_authenticated:
 		controles = Control.objects.filter(fecha_entrada = date.today())
 		pass
 	else:
 		controles = Control.objects.all()
 
+	contexto = {'controles':controles, 'no_controles':""}
+
 	if 'btnBuscar' in request.GET:
-		if request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] == "":
+		controles = []
+		if request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] == "" and request.GET['txtFechaFinal'] == "":
 			nombre_proveedor = request.GET['txtNombre']
-			proveedor = Proveedor.objects.get(nombre_proveedor__contains = nombre_proveedor)
-			controles = Control.objects.filter(proveedor = proveedor)
+			if Proveedor.objects.filter(nombre_proveedor__contains = nombre_proveedor).exists():
+				proveedores = Proveedor.objects.filter(nombre_proveedor__contains = nombre_proveedor)
+				for proveedor in proveedores:
+					controles_filtrados = Control.objects.filter(proveedor = proveedor)
+					for control in controles_filtrados:
+						controles.append(control)
+						pass
+					pass
+				contexto = {'controles':controles, 'no_controles':""}
+				pass
+			else:
+				contexto = {'controles':[],'no_controles':no_controles}
+				pass
 			pass
 
-		elif request.GET['txtNombre'] == "" and request.GET['txtFechaInicial'] != "":
+		elif request.GET['txtNombre'] == "" and request.GET['txtFechaInicial'] != "" and request.GET['txtFechaFinal'] != "":
 			fecha_inicio = request.GET['txtFechaInicial']
 			fecha_final = request.GET['txtFechaFinal']
 			controles = Control.objects.filter(fecha_entrada__range=(fecha_inicio,fecha_final))
+
+			if controles.count() == 0:
+				contexto = {'controles':[], 'no_controles':no_controles}
+				pass
+			else:
+				contexto = {'controles':controles, 'no_controles':""}
+				pass
 			pass
 			
-		elif request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] != "":
+		elif request.GET['txtNombre'] != "" and request.GET['txtFechaInicial'] != "" and request.GET['txtFechaFinal'] != "":
 			fecha_inicio = request.GET['txtFechaInicial']
 			fecha_final = request.GET['txtFechaFinal']
 			nombre_proveedor = request.GET['txtNombre']
-			proveedor = Proveedor.objects.get(nombre_proveedor__contains = nombre_proveedor)
-			controles = Control.objects.filter(proveedor = proveedor).filter(fecha_entrada__range=(fecha_inicio,fecha_final))
+
+			if Proveedor.objects.filter(nombre_proveedor__contains = nombre_proveedor).exists():
+				proveedores_filtrados = Proveedor.objects.filter(nombre_proveedor__contains = nombre_proveedor)
+				for proveedor in proveedores_filtrados:
+					controles_filtrados = Control.objects.filter(proveedor = proveedor).filter(fecha_entrada__range=(fecha_inicio,fecha_final))
+					for control in controles_filtrados:
+						controles.append(control)
+						pass
+					pass
+				pass
+
+			if controles == []:
+				contexto = {'controles':[], 'no_controles':no_controles}
+				pass
+			else:
+				contexto = {'controles':controles, 'no_controles':""}
+				pass
+			pass
+
+		else:
+			contexto = {'controles':[], 'no_controles':"", 'faltan_parametros':faltan_parametros}
 			pass
 		pass
 
-	return render(request, 'proveedor/historial.html', {'controles':controles})
+	return render(request, 'proveedor/historial.html', contexto)
 
 def crear_puesto(request):
 	if request.method == 'POST':
