@@ -30,10 +30,8 @@
 		<table class="table table-hover">
 					<thead id="thead-dark" class="thead-dark" style="color: white; background-color: black;">
 						<tr>
-							<th scope="col">ID</th>
 							<th scope="col">Fecha + hora de entrada</th>
 							<th scope="col">Fecha + hora de salida</th>
-							<th scope="col">Control</th>
 							<th scope="col"> ID Proveedor</th>
 							<th scope="col">Proveedor Nombre</th>
 							<th scope="col">Tiempo</th>
@@ -42,10 +40,8 @@
 					<tbody>
 						{% for control_tiempo in controles_tiempos %}
 							<tr>
-								<td>{{ control_tiempo.0.id }}</td>
 								<td>{{ control_tiempo.0.fecha_entrada }} {{ control_tiempo.0.hora_entrada }}</td>
 								<td>{{ control_tiempo.0.fecha_salida }} {{ control_tiempo.0.hora_salida }}</td>
-								<td>{{ control_tiempo.0.control }}</td>
 								<td>{{ control_tiempo.0.proveedor.codigo_proveedor }}</td>
 								<td>{{ control_tiempo.0.proveedor.nombre_proveedor }}</td>
 								<td>{{ control_tiempo.1 }}</td>
