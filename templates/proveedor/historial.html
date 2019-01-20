@@ -36,17 +36,19 @@
 							<th scope="col">Control</th>
 							<th scope="col"> ID Proveedor</th>
 							<th scope="col">Proveedor Nombre</th>
+							<th scope="col">Tiempo</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for control in controles %}
+						{% for control_tiempo in controles_tiempos %}
 							<tr>
-								<td>{{ control.id }}</td>
-								<td>{{ control.fecha_entrada }} {{ control.hora_entrada }}</td>
-								<td>{{ control.fecha_salida }} {{ control.hora_salida }}</td>
-								<td>{{ control.control }}</td>
-								<td>{{ control.proveedor.codigo_proveedor }}</td>
-								<td>{{ control.proveedor.nombre_proveedor }}</td>
+								<td>{{ control_tiempo.0.id }}</td>
+								<td>{{ control_tiempo.0.fecha_entrada }} {{ control_tiempo.0.hora_entrada }}</td>
+								<td>{{ control_tiempo.0.fecha_salida }} {{ control_tiempo.0.hora_salida }}</td>
+								<td>{{ control_tiempo.0.control }}</td>
+								<td>{{ control_tiempo.0.proveedor.codigo_proveedor }}</td>
+								<td>{{ control_tiempo.0.proveedor.nombre_proveedor }}</td>
+								<td>{{ control_tiempo.1 }}</td>
 							</tr>
 						{% endfor %}
 					</tbody>

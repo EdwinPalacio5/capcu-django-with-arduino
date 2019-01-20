@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse,JsonResponse
 import time
-from datetime import date
+from datetime import date, datetime
 import serial
 from apps.proveedor.models import Proveedor, Control, Puesto
 from apps.proveedor.forms import *
@@ -194,6 +194,8 @@ def historial(request):
 	else:
 		controles = Control.objects.all()
 
+	
+
 	contexto = {'controles':controles, 'no_controles':""}
 
 	if 'btnBuscar' in request.GET:
@@ -254,6 +256,16 @@ def historial(request):
 		else:
 			contexto = {'controles':[], 'no_controles':"", 'faltan_parametros':faltan_parametros}
 			pass
+		pass
+		
+	tiempos = []
+	if controles != []:
+		for control in controles:
+			tiempos.append(datetime.combine(date.today(), control.hora_salida) - datetime.combine(date.today(), control.hora_entrada))
+			pass
+		contexto['tiempos'] = tiempos
+		controles_tiempos = zip(contexto['controles'], contexto['tiempos'])
+		contexto['controles_tiempos'] = controles_tiempos
 		pass
 
 	return render(request, 'proveedor/historial.html', contexto)
