@@ -5,6 +5,7 @@ from datetime import date
 import serial
 from apps.proveedor.models import Proveedor, Control, Puesto
 from apps.proveedor.forms import *
+import serial.tools.list_ports
 
 # Create your views here.
 def capcu(request):
@@ -28,8 +29,19 @@ def salida(request, proveedor):
 	control.save()
 	proveedor.save()
 
+def puerto():
+	ports = list(serial.tools.list_ports.comports())
+	puerto = ''
+	for p in ports:
+		puerto = p
+	puerto = puerto[0]
+	return puerto
+
 def lectura(request):
-	arduino = serial.Serial('COM4', 9600)
+	#-------------------------------------------------------------------------
+	puerto_asignado = puerto()
+	#-------------------------------------------------------------------------
+	arduino = serial.Serial(puerto_asignado, 9600)
 	time.sleep(2)
 	codigo=''
 	while codigo == '':
@@ -49,9 +61,9 @@ def proveedor_mostrar(request):
 	codigo=codigo.decode('utf-8')
 	codigo=codigo[1:12]
 	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
-	
+	puerto_asignado = puerto()
 	if codigo=='90 4D 32 5C':
-		arduino = serial.Serial('COM4', 9600)
+		arduino = serial.Serial(puerto_asignado, 9600)
 		time.sleep(2)
 		arduino.write(b'a')
 		time.sleep(2)
@@ -59,7 +71,7 @@ def proveedor_mostrar(request):
 		return redirect('proveedor:home')
 
 	elif existencia:
-		arduino = serial.Serial('COM4', 9600)
+		arduino = serial.Serial(puerto_asignado, 9600)
 		time.sleep(2)
 		arduino.write(b'a')
 		time.sleep(1)
@@ -75,7 +87,7 @@ def proveedor_mostrar(request):
 			ingreso_salida='Hora de salida'
 
 	else:
-		arduino = serial.Serial('COM4', 9600)
+		arduino = serial.Serial(puerto_asignado, 9600)
 		time.sleep(2)
 		arduino.write(b'b')
 		time.sleep(1)
