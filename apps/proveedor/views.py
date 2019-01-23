@@ -281,7 +281,16 @@ def historial(request):
 	tiempos = []
 	if controles != []:
 		for control in controles:
-			tiempos.append(datetime.combine(date.today(), control.hora_salida) - datetime.combine(date.today(), control.hora_entrada))
+			if control.hora_salida:
+				control.control = False
+				tiempos.append(datetime.combine(date.today(), control.hora_salida) - datetime.combine(date.today(), control.hora_entrada))
+				pass
+			else:
+				control.control = True
+				tiempo_en_proceso = str(datetime.combine(date.today(), datetime.now().time()) - datetime.combine(date.today(), control.hora_entrada)).split('.')[0]
+				tiempos.append(tiempo_en_proceso)
+				pass
+			
 			pass
 		contexto['tiempos'] = tiempos
 		controles_tiempos = zip(contexto['controles'], contexto['tiempos'])
