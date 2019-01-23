@@ -9,7 +9,8 @@ import serial.tools.list_ports
 
 # Create your views here.
 def capcu(request):
-	return render(request, 'proveedor/capcu.html')
+	puerto_asignado = puerto()
+	return render(request, 'proveedor/capcu.html',{'puerto':puerto_asignado})
 
 def entrada(request, proveedor):
 	proveedor.estado_control=True
