@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse
 import time
 from datetime import date, datetime
 import serial
-from apps.proveedor.models import Proveedor, Control, Puesto
+from apps.proveedor.models import Proveedor, Control, Puesto, Administrador
 from apps.proveedor.forms import *
 import serial.tools.list_ports
 
@@ -50,6 +50,13 @@ def lectura(request):
 
 	return codigo
 
+def get_administrador():
+	administrador = Administrador.objects.all()
+	if administrador:
+		return administrador[0].codigo_administrador
+	else:
+		return ''
+
 def proveedor_mostrar(request):
 	codigo=lectura(request)
 	mensaje=''
@@ -57,12 +64,13 @@ def proveedor_mostrar(request):
 	control=''
 	ingreso_salida=''
 	hora_ingreso=time.strftime("%H:%M:%S")
-
 	codigo=codigo.decode('utf-8')
 	codigo=codigo[1:12]
 	existencia = Proveedor.objects.filter(codigo_proveedor=codigo).exists()
 	puerto_asignado = puerto()
-	if codigo=='90 4D 32 5C':
+
+	admin = get_administrador()
+	if codigo==admin:
 		arduino = serial.Serial(puerto_asignado, 9600)
 		time.sleep(2)
 		arduino.write(b'a')

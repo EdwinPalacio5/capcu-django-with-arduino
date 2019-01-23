@@ -33,6 +33,12 @@ class Control(models.Model):
 	hora_salida = models.TimeField(blank=True, null=True)
 	control = models.BooleanField(default=True)
 	proveedor = models.ForeignKey (Proveedor, null = True , blank = True , on_delete = models.CASCADE)
+
+class Administrador(models.Model):
+	codigo_administrador = models.CharField(max_length=20)
+
+	def __str__(self):
+		return self.codigo_administrador
 	
 
 
