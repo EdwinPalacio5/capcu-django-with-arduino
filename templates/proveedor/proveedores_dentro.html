@@ -20,24 +20,26 @@
       <th scope="col">Categorias</th>
       <th scope="col">Puestos</th>
       <th scope="col">Hora de ingreso</th>
+      <th scope="col">Tiempo dentro del campus</th>
     </tr>
   </thead>
   <tbody>
-		{% for proveedor in proveedores %}	
+		{% for l in lista %}	
     <tr>
-      <th scope="row">{{proveedor.proveedor.codigo_proveedor}}</th>
-      <td>{{proveedor.proveedor.nombre_proveedor}}</td>
+      <th scope="row">{{l.0.proveedor.codigo_proveedor}}</th>
+      <td>{{l.0.proveedor.nombre_proveedor}}</td>
       <td>
-      	{% for categoria in proveedor.proveedor.categoria_proveedor.all %}
+      	{% for categoria in l.0.proveedor.categoria_proveedor.all %}
       	{{categoria.nombre_categoria}}<br>
       	{% endfor %}
       </td>
       <td>
-      	{% for puesto in proveedor.proveedor.puesto_proveedor.all %}
+      	{% for puesto in l.0.proveedor.puesto_proveedor.all %}
       	{{ puesto.nombre_puesto }}<br>
       	{% endfor %}
       </td>
-      <td>{{proveedor.hora_entrada}}</td>
+      <td class="text-center">{{l.0.hora_entrada}}</td>
+      <td class="text-center">{{l.1}}</td>
     </tr>
 		{% endfor %}
 	</tbody>

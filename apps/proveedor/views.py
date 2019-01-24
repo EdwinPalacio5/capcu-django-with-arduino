@@ -116,8 +116,21 @@ def proveedor_mostrar(request):
 	return render(request, 'proveedor/proveedor_mostrar.html', context)
 
 def proveedores_dentro(request):
+	context = {}
+	hora_entrada=[]
+
 	proveedores = Control.objects.filter(control=True)
-	return render(request, 'proveedor/proveedores_dentro.html', {'proveedores':proveedores})
+	hora_actual = datetime.now().strftime("%y-%m-%d-%H-%M-%S")
+	hora_actual = datetime.now().strptime(hora_actual, "%y-%m-%d-%H-%M-%S")
+
+	for p in proveedores:
+		hora_entrada.append(hora_actual-datetime.combine(date.today(), p.hora_entrada))
+
+	context['proveedores']=proveedores
+	context['hora_entrada']=hora_entrada
+	context['lista'] = zip(context['proveedores'], context['hora_entrada'])
+
+	return render(request, 'proveedor/proveedores_dentro.html', context)
 
 def adm_proveedor(request):
 	lista_proveedores = list()
