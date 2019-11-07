@@ -1,4 +1,4 @@
-Django==2.0
+Django==2.0.12
 djangorestframework==3.8.2
 mpmath==1.0.0
 pillow==5.2.0
